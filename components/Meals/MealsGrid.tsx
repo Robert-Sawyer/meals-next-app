@@ -13,7 +13,7 @@ type MealsGridProps = {
 }
 
 export default function MealsGrid({meals}: MealsGridProps) {
-    return <ul>
+    return <ul className={classes.meals}>
         {meals.map(meal => (
             <li key={meal.id}>
                 <MealItem {...meal} />
