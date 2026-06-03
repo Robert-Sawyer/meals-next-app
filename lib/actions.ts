@@ -3,7 +3,11 @@
 import {saveMeal} from "./meals";
 import {redirect} from "next/navigation";
 
-export async function shareMeal(formData: FormData) {
+function isInvalid(text: FormDataEntryValue) {
+    return !text || typeof text !== 'string' || text.trim() === '';
+}
+
+export async function shareMeal(prevState, formData: FormData) {
     'use server'
 
     const meal = {
@@ -15,6 +19,20 @@ export async function shareMeal(formData: FormData) {
         creator_email: formData.get('email'),
     }
 
+    if (
+        isInvalid(meal.title) ||
+        isInvalid(meal.summary) ||
+        isInvalid(meal.instructions) ||
+        isInvalid(meal.creator) ||
+        isInvalid(meal.creator_email) ||
+        (typeof meal.creator_email === 'string' && !meal.creator_email.includes('@')) ||
+        !meal.image ||
+        (typeof meal.image === 'object' && meal.image.size === 0)
+    ) {
+        return {
+            message: 'Invalid input data'
+        }
+    }
     await saveMeal(meal);
     redirect('/meals');
 }
