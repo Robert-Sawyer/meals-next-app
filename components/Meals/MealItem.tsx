@@ -1,17 +1,18 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import {ReactElement} from "react";
 
 import classes from './MealItem.module.css';
 
-type MealItemProps = {
+export type MealItemProps = {
  title: string;
- slug: unknown;
+ slug: string;
  image: string;
  summary: string;
  creator: string;
 }
 
-export default function MealItem({ title, slug, image, summary, creator }: MealItemProps) {
+export default function MealItem({ title, slug, image, summary, creator }: MealItemProps): ReactElement {
     return (
         <article className={classes.meal}>
             <header>

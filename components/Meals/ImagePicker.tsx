@@ -2,24 +2,24 @@
 
 import Image from 'next/image'
 import classes from './ImagePicker.module.css'
-import {useRef, useState, ChangeEvent} from "react";
+import {useRef, useState, ChangeEvent, ReactElement} from "react";
 
 type ImagePickerProps = {
     label?: string;
     name?: string;
 }
 
-export default function ImagePicker({label, name}: ImagePickerProps) {
+export default function ImagePicker({label, name}: ImagePickerProps): ReactElement {
     const [pickedImage, setPickedImage] = useState<string | null>(null);
 
     const imageInput = useRef<HTMLInputElement>(null);
 
-    const handlePickImage = () => {
-        imageInput.current.click()
+    const handlePickImage = (): void => {
+        imageInput.current?.click()
     }
 
-    const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files[0]
+    const handleImageChange = (event: ChangeEvent<HTMLInputElement>): void => {
+        const file = event.target.files?.[0]
 
         if (!file) {
             setPickedImage(null)

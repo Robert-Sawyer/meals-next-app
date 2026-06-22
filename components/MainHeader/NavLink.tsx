@@ -1,6 +1,6 @@
 'use client';
 
-import {ReactNode} from "react";
+import {ReactElement, ReactNode} from "react";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
 import classes from './NavLink.module.css';
@@ -10,7 +10,7 @@ type NavLinkProps = {
     children: ReactNode
 }
 
-export default function NavLink({href, children}: NavLinkProps) {
+export default function NavLink({href, children}: NavLinkProps): ReactElement {
     const path = usePathname();
 
     return (

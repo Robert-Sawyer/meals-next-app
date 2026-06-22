@@ -1,4 +1,6 @@
-export default function NotFound() {
+import {ReactElement} from "react";
+
+export default function NotFound(): ReactElement {
     return (
         <main className="not-found">
             <h1>Not Found!</h1>

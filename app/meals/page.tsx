@@ -2,20 +2,21 @@ import classes from './page.module.css'
 import Link from "next/link";
 import MealsGrid from "../../components/Meals/MealsGrid";
 import {getMeals} from '../../lib/meals';
-import {Suspense} from "react";
+import {ReactElement, Suspense} from "react";
+import {Metadata} from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
     title: 'All Meals',
     description: 'Browse the meals share by our community.',
 };
 
-async function Meals() {
+async function Meals(): Promise<ReactElement> {
     const meals = await getMeals();
 
     return <MealsGrid meals={meals}/>
 }
 
-export default async function MealsPage() {
+export default async function MealsPage(): Promise<ReactElement> {
     return (
         <>
         <header className={classes.header}>

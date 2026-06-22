@@ -1,6 +1,8 @@
 'use client';
 
-export default function Error() {
+import {ReactElement} from "react";
+
+export default function Error(): ReactElement {
     return (
         <main className="error">
         <h1>

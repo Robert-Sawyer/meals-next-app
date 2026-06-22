@@ -1,7 +1,18 @@
-const sql = require('better-sqlite3');
+import sql from 'better-sqlite3';
+
+type DummyMeal = {
+  title: string;
+  slug: string;
+  image: string;
+  summary: string;
+  instructions: string;
+  creator: string;
+  creator_email: string;
+};
+
 const db = sql('meals.db');
 
-const dummyMeals = [
+const dummyMeals: DummyMeal[] = [
   {
     title: 'Juicy Cheese Burger',
     slug: 'juicy-cheese-burger',
@@ -34,8 +45,8 @@ const dummyMeals = [
       1. Chop vegetables:
          Cut your choice of vegetables into bite-sized pieces.
 
-      2. Sauté vegetables:
-         In a pan with oil, sauté the vegetables until they start to soften.
+      2. SautĂ© vegetables:
+         In a pan with oil, sautĂ© the vegetables until they start to soften.
 
       3. Add curry paste:
          Stir in 2 tablespoons of curry paste and cook for another minute.
@@ -110,7 +121,7 @@ const dummyMeals = [
          Roll out the dough, spread tomato sauce, and add your favorite toppings and cheese.
 
       3. Bake the pizza:
-         Bake in a preheated oven at 220°C for about 15-20 minutes.
+         Bake in a preheated oven at 220Â°C for about 15-20 minutes.
 
       4. Serve:
          Slice hot and enjoy with a sprinkle of basil leaves.
@@ -177,7 +188,7 @@ db.prepare(`
     )
 `).run();
 
-async function initData() {
+async function initData(): Promise<void> {
   const stmt = db.prepare(`
       INSERT INTO meals VALUES (
          null,
@@ -196,4 +207,4 @@ async function initData() {
   }
 }
 
-initData();
+void initData();

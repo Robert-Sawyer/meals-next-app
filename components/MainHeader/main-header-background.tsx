@@ -1,6 +1,7 @@
 import classes from './main-header-background.module.css';
+import {ReactElement} from "react";
 
-export default function MainHeaderBackground() {
+export default function MainHeaderBackground(): ReactElement {
     return (
         <div className={classes['header-background']}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">

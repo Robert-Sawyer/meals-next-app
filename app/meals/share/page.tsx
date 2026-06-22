@@ -4,9 +4,9 @@ import classes from './page.module.css';
 import ImagePicker from "../../../components/Meals/ImagePicker";
 import {shareMeal} from "../../../lib/actions";
 import {MealsFormSubmit} from "../../../components/Meals/MealsFormSubmit";
-import {useActionState} from "react";
+import {ReactElement, useActionState} from "react";
 
-export default function ShareMealPage() {
+export default function ShareMealPage(): ReactElement {
     const [state, formActions] = useActionState(shareMeal, {message: null})
 
     return (

@@ -4,37 +4,53 @@ import {saveMeal} from "./meals";
 import {redirect} from "next/navigation";
 import {revalidatePath} from "next/cache";
 
-function isInvalid(text: FormDataEntryValue) {
-    return !text || typeof text !== 'string' || text.trim() === '';
+export type ShareMealState = {
+    message: string | null;
+};
+
+function isValidText(text: FormDataEntryValue | null): text is string {
+    return typeof text === 'string' && text.trim() !== '';
 }
 
-export async function shareMeal(prevState, formData: FormData) {
+function isValidImage(image: FormDataEntryValue | null): image is File {
+    return image instanceof File && image.size > 0;
+}
+
+export async function shareMeal(prevState: ShareMealState, formData: FormData): Promise<ShareMealState> {
     'use server'
 
-    const meal = {
-        title: formData.get('title'),
-        summary: formData.get('summary'),
-        instructions: formData.get('instructions'),
-        image: formData.get('image'),
-        creator: formData.get('name'),
-        creator_email: formData.get('email'),
-    }
+    const title = formData.get('title');
+    const summary = formData.get('summary');
+    const instructions = formData.get('instructions');
+    const image = formData.get('image');
+    const creator = formData.get('name');
+    const creatorEmail = formData.get('email');
+
+    const emailIsInvalid = typeof creatorEmail !== 'string' || !creatorEmail.includes('@');
 
     if (
-        isInvalid(meal.title) ||
-        isInvalid(meal.summary) ||
-        isInvalid(meal.instructions) ||
-        isInvalid(meal.creator) ||
-        isInvalid(meal.creator_email) ||
-        (typeof meal.creator_email === 'string' && !meal.creator_email.includes('@')) ||
-        !meal.image ||
-        (typeof meal.image === 'object' && meal.image.size === 0)
+        !isValidText(title) ||
+        !isValidText(summary) ||
+        !isValidText(instructions) ||
+        !isValidText(creator) ||
+        !isValidText(creatorEmail) ||
+        emailIsInvalid ||
+        !isValidImage(image)
     ) {
         return {
             message: 'Invalid input data'
         }
     }
-    await saveMeal(meal);
+
+    await saveMeal({
+        title,
+        summary,
+        instructions,
+        image,
+        creator,
+        creator_email: creatorEmail,
+    });
+
     revalidatePath('/meals')
     redirect('/meals');
 }

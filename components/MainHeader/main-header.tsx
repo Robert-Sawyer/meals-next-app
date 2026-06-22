@@ -5,8 +5,9 @@ import classes from './main-header.module.css'
 import Image from "next/image";
 import MainHeaderBackground from "./main-header-background";
 import NavLink from "./NavLink";
+import {ReactElement} from "react";
 
-export default function MainHeader() {
+export default function MainHeader(): ReactElement {
     return (
         <>
         <MainHeaderBackground/>

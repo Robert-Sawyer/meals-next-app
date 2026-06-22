@@ -5,8 +5,15 @@ import {notFound} from "next/navigation";
 import {Metadata} from "next";
 import {ReactElement} from "react";
 
-export async function generateMetadata({ params }): Promise<Metadata> {
-    const meal = getMeal(params.mealSlug);
+type MealDetailsPageProps = {
+    params: Promise<{
+        mealSlug: string;
+    }>;
+};
+
+export async function generateMetadata({ params }: MealDetailsPageProps): Promise<Metadata> {
+    const {mealSlug} = await params;
+    const meal = getMeal(mealSlug);
 
     if (!meal) {
         notFound();
@@ -18,8 +25,9 @@ export async function generateMetadata({ params }): Promise<Metadata> {
     }
 }
 
-export default function MealDetailsPage({params}): ReactElement {
-    const meal = getMeal(params.mealSlug)
+export default async function MealDetailsPage({params}: MealDetailsPageProps): Promise<ReactElement> {
+    const {mealSlug} = await params;
+    const meal = getMeal(mealSlug)
 
     if (!meal) {
         notFound();
