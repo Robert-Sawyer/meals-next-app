@@ -2,8 +2,23 @@ import classes from './page.module.css'
 import Image from "next/image";
 import {getMeal} from "../../../lib/meals";
 import {notFound} from "next/navigation";
+import {Metadata} from "next";
+import {ReactElement} from "react";
 
-export default function MealDetailsPage({params}) {
+export async function generateMetadata({ params }): Promise<Metadata> {
+    const meal = getMeal(params.mealSlug);
+
+    if (!meal) {
+        notFound();
+    }
+
+    return {
+        title: meal.title,
+        description: meal.summary,
+    }
+}
+
+export default function MealDetailsPage({params}): ReactElement {
     const meal = getMeal(params.mealSlug)
 
     if (!meal) {
